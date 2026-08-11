@@ -1,14 +1,12 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title></title>
-</head>
+{% block title %}BME Toolkit - Home{% endblock %}
 
-<body>
-  
-</body>
-
-</html>
+{% block content %}
+    <h1>BME Student Toolkit</h1>
+    <p>Built by a BME student, for BME students juggling coursework and group projects.</p>
+    <ul>
+        <li><a href="{{ url_for('convert') }}">Unit &amp; Dosage Converter</a></li>
+        <li><a href="{{ url_for('tasks') }}">Group Project Task Tracker</a></li>
+    </ul>
+{% endblock %}
