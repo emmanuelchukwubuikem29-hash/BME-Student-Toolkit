@@ -1,9 +1,8 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
 def mgdl_to_mmoll(value):
-    # Standard clinical conversion factor for glucose.
     return value / 18.0
 
 def mmoll_to_mgdl(value):
@@ -14,14 +13,43 @@ def dosage_by_weight(dose_per_kg, weight_kg):
 
 def calculate_bmi(weight_kg, height_m):
     return weight_kg / (height_m ** 2)
-    
+
 @app.route("/")
 def home():
     return render_template("home.html")
 
-@app.route("/convert")
+@app.route("/convert", methods=["GET", "POST"])
 def convert():
-    return render_template("convert.html", result=None, error=None)
+    result = None
+    error = None
+
+    if request.method == "POST":
+        conversion_type = request.form.get("conversion_type")
+
+        try:
+            if conversion_type == "mgdl_to_mmoll":
+                value = float(request.form.get("value"))
+                result = f"{mgdl_to_mmoll(value):.2f} mmol/L"
+
+            elif conversion_type == "mmoll_to_mgdl":
+                value = float(request.form.get("value"))
+                result = f"{mmoll_to_mgdl(value):.2f} mg/dL"
+
+            elif conversion_type == "dosage":
+                dose_per_kg = float(request.form.get("dose_per_kg"))
+                weight_kg = float(request.form.get("weight_kg"))
+                result = f"{dosage_by_weight(dose_per_kg, weight_kg):.2f} mg total dose"
+
+            elif conversion_type == "bmi":
+                weight_kg = float(request.form.get("weight_kg_bmi"))
+                height_m = float(request.form.get("height_m"))
+                bmi_value = calculate_bmi(weight_kg, height_m)
+                result = f"BMI: {bmi_value:.1f}"
+
+        except (TypeError, ValueError):
+            error = "Please enter valid numbers in all fields."
+
+    return render_template("convert.html", result=result, error=error)
 
 @app.route("/tasks")
 def tasks():
