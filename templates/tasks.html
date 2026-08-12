@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}BME Toolkit - Tasks{% endblock %}
+
+{% block content %}
+    <h1>Group Project Task Tracker</h1>
+
+    {% if tasks %}
+        <ul>
+            {% for task in tasks %}
+                <li>
+                    <strong>{{ task.title }}</strong>
+                    — Assigned to: {{ task.assignee }}
+                    — Deadline: {{ task.deadline }}
+                    — {% if task.done %}Done{% else %}Pending{% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No tasks yet.</p>
+    {% endif %}
+{% endblock %}

@@ -72,7 +72,8 @@ def convert():
 
 @app.route("/tasks")
 def tasks():
-    return "Tasks page coming next."
+    all_tasks = load_tasks()
+    return render_template("tasks.html", tasks=all_tasks)
 
 if __name__ == "__main__":
     app.run(debug=True)
