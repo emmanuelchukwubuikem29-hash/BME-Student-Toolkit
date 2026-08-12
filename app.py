@@ -1,4 +1,23 @@
 from flask import Flask, render_template, request
+import json
+
+TASKS_FILE = "tasks_data.json"
+
+def load_tasks():
+    # Opens the JSON file and turns it back into a Python list of dicts.
+    # If the file doesn't exist yet, start with an empty list instead of crashing.
+    try:
+        with open(TASKS_FILE, "r") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return []
+
+def save_tasks(tasks):
+    # Takes our Python list and writes it back to disk as JSON.
+    # indent=2 just makes the file human-readable if you open it directly.
+    with open(TASKS_FILE, "w") as f:
+        json.dump(tasks, f, indent=2)
+
 
 app = Flask(__name__)
 
