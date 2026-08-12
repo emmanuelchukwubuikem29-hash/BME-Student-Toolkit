@@ -1,14 +1,52 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title></title>
-</head>
+{% block title %}BME Toolkit - Converter{% endblock %}
 
-<body>
-  
-</body>
+{% block content %}
+    <h1>Unit &amp; Dosage Converter</h1>
 
-</html>
+    {% if error %}
+        <p style="color: #c53030;">{{ error }}</p>
+    {% endif %}
+
+    {% if result %}
+        <p><strong>Result:</strong> {{ result }}</p>
+    {% endif %}
+
+    <form method="post">
+        <label for="conversion_type">Choose conversion:</label>
+        <select name="conversion_type" id="conversion_type">
+            <option value="mgdl_to_mmoll">mg/dL → mmol/L (glucose)</option>
+            <option value="mmoll_to_mgdl">mmol/L → mg/dL (glucose)</option>
+            <option value="dosage">Dosage by weight (mg/kg)</option>
+            <option value="bmi">BMI calculator</option>
+        </select>
+
+        <div>
+            <label for="value">Value (for mg/dL or mmol/L):</label>
+            <input type="number" step="any" name="value" id="value">
+        </div>
+
+        <div>
+            <label for="dose_per_kg">Dose per kg (mg/kg, for dosage calc):</label>
+            <input type="number" step="any" name="dose_per_kg" id="dose_per_kg">
+        </div>
+
+        <div>
+            <label for="weight_kg">Body weight in kg (for dosage calc):</label>
+            <input type="number" step="any" name="weight_kg" id="weight_kg">
+        </div>
+
+        <div>
+            <label for="weight_kg_bmi">Weight in kg (for BMI):</label>
+            <input type="number" step="any" name="weight_kg_bmi" id="weight_kg_bmi">
+        </div>
+
+        <div>
+            <label for="height_m">Height in meters (for BMI):</label>
+            <input type="number" step="any" name="height_m" id="height_m">
+        </div>
+
+        <button type="submit">Convert</button>
+    </form>
+{% endblock %}

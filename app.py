@@ -8,7 +8,7 @@ def home():
 
 @app.route("/convert")
 def convert():
-    return "Converter page coming next."
+    return render_template("convert.html", result=None, error=None)
 
 @app.route("/tasks")
 def tasks():
