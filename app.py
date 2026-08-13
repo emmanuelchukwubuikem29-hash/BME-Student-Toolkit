@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 import json
 
 TASKS_FILE = "tasks_data.json"
@@ -85,6 +85,14 @@ def tasks():
 
     all_tasks = load_tasks()
     return render_template("tasks.html", tasks=all_tasks)
+
+@app.route("/tasks/toggle/<int:task_index>", methods=["POST"])
+def toggle_task(task_index):
+    all_tasks = load_tasks()
+    if 0 <= task_index < len(all_tasks):
+        all_tasks[task_index]["done"] = not all_tasks[task_index]["done"]
+        save_tasks(all_tasks)
+    return redirect(url_for("tasks"))
 
 if __name__ == "__main__":
     app.run(debug=True)

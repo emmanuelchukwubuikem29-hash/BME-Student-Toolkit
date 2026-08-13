@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{{% extends "base.html" %}
 
 {% block title %}BME Toolkit - Tasks{% endblock %}
 
@@ -13,6 +13,12 @@
                     — Assigned to: {{ task.assignee }}
                     — Deadline: {{ task.deadline }}
                     — {% if task.done %}Done{% else %}Pending{% endif %}
+
+                    <form method="post" action="{{ url_for('toggle_task', task_index=loop.index0) }}" style="display:inline;">
+                        <button type="submit">
+                            {% if task.done %}Mark Pending{% else %}Mark Done{% endif %}
+                        </button>
+                    </form>
                 </li>
             {% endfor %}
         </ul>
