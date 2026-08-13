@@ -3,9 +3,7 @@ import json
 
 TASKS_FILE = "tasks_data.json"
 
-def load_tasks():
-    # Opens the JSON file and turns it back into a Python list of dicts.
-    # If the file doesn't exist yet, start with an empty list instead of crashing.
+def load_tasks() -> list:
     try:
         with open(TASKS_FILE, "r") as f:
             return json.load(f)
