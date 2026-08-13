@@ -70,8 +70,19 @@ def convert():
 
     return render_template("convert.html", result=result, error=error)
 
-@app.route("/tasks")
+@app.route("/tasks", methods=["GET", "POST"])
 def tasks():
+    if request.method == "POST":
+        new_task = {
+            "title": request.form.get("title"),
+            "assignee": request.form.get("assignee"),
+            "deadline": request.form.get("deadline"),
+            "done": False,
+        }
+        all_tasks = load_tasks()
+        all_tasks.append(new_task)
+        save_tasks(all_tasks)
+
     all_tasks = load_tasks()
     return render_template("tasks.html", tasks=all_tasks)
 
