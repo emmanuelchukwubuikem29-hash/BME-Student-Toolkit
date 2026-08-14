@@ -6,17 +6,17 @@
     <h1>Group Project Task Tracker</h1>
 
     {% if tasks %}
-        <ul>
+        <ul class="task-list">
             {% for task in tasks %}
-                <li>
-                    <strong>{{ task.title }}</strong>
-                    — Assigned to: {{ task.assignee }}
-                    — Deadline: {{ task.deadline }}
-                    — {% if task.done %}Done{% else %}Pending{% endif %}
+                <li class="task-item {% if task.done %}done{% endif %}">
+                    <div>
+                        <span class="task-title"><strong>{{ task.title }}</strong></span>
+                        <div class="task-meta">Assigned to: {{ task.assignee }} — Deadline: {{ task.deadline }}</div>
+                    </div>
 
-                    <form method="post" action="{{ url_for('toggle_task', task_index=loop.index0) }}" style="display:inline;">
+                    <form method="post" action="{{ url_for('toggle_task', task_index=loop.index0) }}">
                         <button type="submit">
-                            {% if task.done %}Mark Pending{% else %}Mark Done{% endif %}
+                            {% if task.done %}Undo{% else %}Done{% endif %}
                         </button>
                     </form>
                 </li>

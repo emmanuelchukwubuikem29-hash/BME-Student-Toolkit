@@ -64,4 +64,52 @@ button {
 
 button:hover {
     background: #2c5282;
-}}
+}
+
+.task-list {
+    list-style: none;
+    padding: 0;
+}
+
+.task-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.task-item.done {
+    background: #f0fff4;
+    border-color: #c6f6d5;
+}
+
+.task-item.done .task-title {
+    text-decoration: line-through;
+    color: #718096;
+}
+
+.task-meta {
+    font-size: 0.85rem;
+    color: #718096;
+}
+
+.task-item form {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.task-item button {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+    background: #4a5568;
+}
+
+.task-item button:hover {
+    background: #2d3748;
+}
