@@ -15,38 +15,64 @@
 
     <form method="post">
         <label for="conversion_type">Choose conversion:</label>
-        <select name="conversion_type" id="conversion_type">
-            <option value="mgdl_to_mmoll">mg/dL → mmol/L (glucose)</option>
-            <option value="mmoll_to_mgdl">mmol/L → mg/dL (glucose)</option>
+        <select name="conversion_type" id="conversion_type" onchange="showRelevantFields()">
+            <option value="mgdl_to_mmoll">mg/dL to mmol/L (glucose)</option>
+            <option value="mmoll_to_mgdl">mmol/L to mg/dL (glucose)</option>
             <option value="dosage">Dosage by weight (mg/kg)</option>
             <option value="bmi">BMI calculator</option>
         </select>
 
-        <div>
-            <label for="value">Value (for mg/dL or mmol/L):</label>
+        <div id="field-value">
+            <label for="value">Value:</label>
             <input type="number" step="any" name="value" id="value">
         </div>
 
-        <div>
-            <label for="dose_per_kg">Dose per kg (mg/kg, for dosage calc):</label>
+        <div id="field-dosage" style="display:none;">
+            <label for="dose_per_kg">Dose per kg (mg/kg):</label>
             <input type="number" step="any" name="dose_per_kg" id="dose_per_kg">
-        </div>
 
-        <div>
-            <label for="weight_kg">Body weight in kg (for dosage calc):</label>
+            <label for="weight_kg">Body weight in kg:</label>
             <input type="number" step="any" name="weight_kg" id="weight_kg">
         </div>
 
-        <div>
-            <label for="weight_kg_bmi">Weight in kg (for BMI):</label>
+        <div id="field-bmi" style="display:none;">
+            <label for="weight_kg_bmi">Weight in kg:</label>
             <input type="number" step="any" name="weight_kg_bmi" id="weight_kg_bmi">
-        </div>
 
-        <div>
-            <label for="height_m">Height in meters (for BMI):</label>
+            <label for="height_m">Height in meters:</label>
             <input type="number" step="any" name="height_m" id="height_m">
         </div>
 
         <button type="submit">Convert</button>
     </form>
+
+    <script>
+        // Shows only the input fields relevant to the selected conversion type,
+        // hides the rest. Runs once on page load, and again whenever the
+        // dropdown changes.
+        function showRelevantFields() {
+            const type = document.getElementById("conversion_type").value;
+
+            const valueField = document.getElementById("field-value");
+            const dosageField = document.getElementById("field-dosage");
+            const bmiField = document.getElementById("field-bmi");
+
+            // Hide everything first, then show only what's needed.
+            valueField.style.display = "none";
+            dosageField.style.display = "none";
+            bmiField.style.display = "none";
+
+            if (type === "mgdl_to_mmoll" || type === "mmoll_to_mgdl") {
+                valueField.style.display = "block";
+            } else if (type === "dosage") {
+                dosageField.style.display = "block";
+            } else if (type === "bmi") {
+                bmiField.style.display = "block";
+            }
+        }
+
+        // Run once when the page first loads, so the correct fields show
+        // immediately based on whatever option is selected by default.
+        showRelevantFields();
+    </script>
 {% endblock %}
