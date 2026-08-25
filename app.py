@@ -92,5 +92,13 @@ def toggle_task(task_index):
         save_tasks(all_tasks)
     return redirect(url_for("tasks"))
 
+@app.route("/tasks/delete/<int:task_index>", methods=["POST"])
+def delete_task(task_index):
+    all_tasks = load_tasks()
+    if 0 <= task_index < len(all_tasks):
+        all_tasks.pop(task_index)
+        save_tasks(all_tasks)
+    return redirect(url_for("tasks"))
+    
 if __name__ == "__main__":
     app.run(debug=True)
