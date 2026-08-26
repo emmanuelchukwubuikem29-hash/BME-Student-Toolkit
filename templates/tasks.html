@@ -19,6 +19,9 @@
                             {% if task.done %}Undo{% else %}Done{% endif %}
                         </button>
                     </form>
+                    
+                    <a href="{{ url_for('edit_task', task_index=loop.index0) }}">Edit</a>
+                    
                     <form method="post" action="{{ url_for('delete_task', task_index=loop.index0) }}" onsubmit="return confirm('Delete this task?');">
                         <button type="submit">Delete</button>
                     </form>

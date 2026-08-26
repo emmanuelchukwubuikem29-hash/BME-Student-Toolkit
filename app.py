@@ -99,6 +99,24 @@ def delete_task(task_index):
         all_tasks.pop(task_index)
         save_tasks(all_tasks)
     return redirect(url_for("tasks"))
+
+@app.route("/tasks/edit/<int:task_index>", methods=["GET", "POST"])
+def edit_task(task_index):
+    all_tasks = load_tasks()
+
+    if not (0 <= task_index < len(all_tasks)):
+        return redirect(url_for("tasks"))
+
+    if request.method == "POST":
+        all_tasks[task_index]["title"] = request.form.get("title")
+        all_tasks[task_index]["assignee"] = request.form.get("assignee")
+        all_tasks[task_index]["deadline"] = request.form.get("deadline")
+        save_tasks(all_tasks)
+        return redirect(url_for("tasks"))
+
+    # GET request: show the edit form, pre-filled with current values
+    task = all_tasks[task_index]
+    return render_template("edit_task.html", task=task, task_index=task_index)
     
 if __name__ == "__main__":
     app.run(debug=True)
