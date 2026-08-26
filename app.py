@@ -31,6 +31,18 @@ def dosage_by_weight(dose_per_kg, weight_kg):
 def calculate_bmi(weight_kg, height_m):
     return weight_kg / (height_m ** 2)
 
+def cm_to_inches(cm):
+    return cm / 2.54
+
+def inches_to_cm(inches):
+    return inches * 2.54
+
+def celsius_to_fahrenheit(c):
+    return (c * 9/5) + 32
+
+def fahrenheit_to_celsius(f):
+    return (f - 32) * 5/9
+    
 @app.route("/")
 def home():
     return render_template("home.html")
@@ -62,7 +74,23 @@ def convert():
                 height_m = float(request.form.get("height_m"))
                 bmi_value = calculate_bmi(weight_kg, height_m)
                 result = f"BMI: {bmi_value:.1f}"
+            
+            elif conversion_type == "cm_to_in":
+                value = float(request.form.get("height_value"))
+                result = f"{cm_to_inches(value):.2f} inches"
 
+            elif conversion_type == "in_to_cm":
+                value = float(request.form.get("height_value"))
+                result = f"{inches_to_cm(value):.2f} cm"
+
+            elif conversion_type == "c_to_f":
+                value = float(request.form.get("temp_value"))
+                result = f"{celsius_to_fahrenheit(value):.1f} °F"
+
+            elif conversion_type == "f_to_c":
+                value = float(request.form.get("temp_value"))
+                result = f"{fahrenheit_to_celsius(value):.1f} °C"
+            
         except (TypeError, ValueError):
             error = "Please enter valid numbers in all fields."
 

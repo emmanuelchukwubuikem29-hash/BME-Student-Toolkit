@@ -20,6 +20,10 @@
             <option value="mmoll_to_mgdl">mmol/L to mg/dL (glucose)</option>
             <option value="dosage">Dosage by weight (mg/kg)</option>
             <option value="bmi">BMI calculator</option>
+            <option value="cm_to_in">cm to inches (height)</option>
+            <option value="in_to_cm">inches to cm (height)</option>
+            <option value="c_to_f">Celsius to Fahrenheit</option>
+            <option value="f_to_c">Fahrenheit to Celsius</option>
         </select>
 
         <div id="field-value">
@@ -42,7 +46,17 @@
             <label for="height_m">Height in meters:</label>
             <input type="number" step="any" name="height_m" id="height_m">
         </div>
+        
+        <div id="field-height" style="display:none;">
+            <label for="height_value">Value:</label>
+            <input type="number" step="any" name="height_value" id="height_value">
+        </div>
 
+        <div id="field-temp" style="display:none;">
+            <label for="temp_value">Value:</label>
+            <input type="number" step="any" name="temp_value" id="temp_value">
+        </div>
+        
         <button type="submit">Convert</button>
     </form>
 
@@ -56,11 +70,14 @@
             const valueField = document.getElementById("field-value");
             const dosageField = document.getElementById("field-dosage");
             const bmiField = document.getElementById("field-bmi");
+            const heightField = document.getElementById("field-height");
+            const tempField = document.getElementById("field-temp");
 
-            // Hide everything first, then show only what's needed.
             valueField.style.display = "none";
             dosageField.style.display = "none";
             bmiField.style.display = "none";
+            heightField.style.display = "none";
+            tempField.style.display = "none";
 
             if (type === "mgdl_to_mmoll" || type === "mmoll_to_mgdl") {
                 valueField.style.display = "block";
@@ -68,6 +85,10 @@
                 dosageField.style.display = "block";
             } else if (type === "bmi") {
                 bmiField.style.display = "block";
+            } else if (type === "cm_to_in" || type === "in_to_cm") {
+                heightField.style.display = "block";
+            } else if (type === "c_to_f" || type === "f_to_c") {
+                tempField.style.display = "block";
             }
         }
 
