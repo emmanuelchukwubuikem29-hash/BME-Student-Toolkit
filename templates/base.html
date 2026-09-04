@@ -16,5 +16,13 @@
     <main>
         {% block content %}{% endblock %}
     </main>
+    
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <p style="background:#c6f6d5; padding:0.5rem; border-radius:4px;">{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
 </body>
 </html>

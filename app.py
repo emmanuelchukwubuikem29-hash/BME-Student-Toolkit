@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 import json
 
 TASKS_FILE = "tasks_data.json"
@@ -18,6 +18,7 @@ def save_tasks(tasks):
 
 
 app = Flask(__name__)
+app.secret_key = "bme-toolkit-dev-key-change-in-production"
 
 def mgdl_to_mmoll(value):
     return value / 18.0
@@ -108,6 +109,8 @@ def tasks():
         all_tasks = load_tasks()
         all_tasks.append(new_task)
         save_tasks(all_tasks)
+        flash("Task added!")
+        return redirect(url_for("tasks"))
 
     all_tasks = load_tasks()
     return render_template("tasks.html", tasks=all_tasks)
