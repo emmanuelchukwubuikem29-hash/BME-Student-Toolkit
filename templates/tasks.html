@@ -11,20 +11,22 @@
                 <li class="task-item {% if task.done %}done{% endif %}">
                     <div>
                         <span class="task-title"><strong>{{ task.title }}</strong></span>
-                        <div class="task-meta">Assigned to: {{ task.assignee }} — Deadline: {{ task.deadline }}</div>
+                        <div class="task-meta">{{ task.assignee }} · {{ task.deadline }}</div>
                     </div>
 
-                    <form method="post" action="{{ url_for('toggle_task', task_index=loop.index0) }}">
-                        <button type="submit">
-                            {% if task.done %}Undo{% else %}Done{% endif %}
-                        </button>
-                    </form>
-                    
-                    <a href="{{ url_for('edit_task', task_index=loop.index0) }}">Edit</a>
-                    
-                    <form method="post" action="{{ url_for('delete_task', task_index=loop.index0) }}" onsubmit="return confirm('Delete this task?');">
-                        <button type="submit">Delete</button>
-                    </form>
+                    <div class="task-actions">
+                        <a href="{{ url_for('edit_task', task_index=loop.index0) }}">Edit</a>
+
+                        <form method="post" action="{{ url_for('toggle_task', task_index=loop.index0) }}">
+                            <button type="submit" class="btn-secondary">
+                                {% if task.done %}Undo{% else %}Done{% endif %}
+                            </button>
+                        </form>
+
+                        <form method="post" action="{{ url_for('delete_task', task_index=loop.index0) }}" onsubmit="return confirm('Delete this task?');">
+                            <button type="submit" class="btn-danger">Delete</button>
+                        </form>
+                    </div>
                 </li>
             {% endfor %}
         </ul>
