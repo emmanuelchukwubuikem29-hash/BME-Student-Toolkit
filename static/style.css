@@ -280,3 +280,27 @@ button:active {
     font-weight: 600;
     margin-bottom: 1rem;
 }
+.status-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    margin-left: 0.4rem;
+    text-transform: uppercase;
+}
+
+.status-pending {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.status-due-today {
+    background: #fed7aa;
+    color: #9a3412;
+}
+
+.status-overdue {
+    background: #fecaca;
+    color: #991b1b;
+}

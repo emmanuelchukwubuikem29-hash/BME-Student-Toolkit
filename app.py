@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
+from datetime import date, datetime
 import json
 
 TASKS_FILE = "tasks_data.json"
@@ -16,6 +17,20 @@ def save_tasks(tasks):
     with open(TASKS_FILE, "w") as f:
         json.dump(tasks, f, indent=2)
 
+def get_task_status(deadline_str, done):
+    # Converts the stored deadline string (e.g. "2026-09-15") into a real
+    # date object, then compares it against today's date.
+    deadline = datetime.strptime(deadline_str, "%Y-%m-%d").date()
+    today = date.today()
+
+    if done:
+        return "done"
+    elif deadline < today:
+        return "overdue"
+    elif deadline == today:
+        return "due_today"
+    else:
+        return "pending"
 
 app = Flask(__name__)
 app.secret_key = "bme-toolkit-dev-key-change-in-production"
@@ -100,10 +115,17 @@ def convert():
 @app.route("/tasks", methods=["GET", "POST"])
 def tasks():
     if request.method == "POST":
+        deadline_str = request.form.get("deadline")
+        deadline = datetime.strptime(deadline_str, "%Y-%m-%d").date()
+
+        if deadline < date.today():
+            flash("Deadline cannot be in the past.")
+            return redirect(url_for("tasks"))
+
         new_task = {
             "title": request.form.get("title"),
             "assignee": request.form.get("assignee"),
-            "deadline": request.form.get("deadline"),
+            "deadline": deadline_str,
             "done": False,
         }
         all_tasks = load_tasks()
@@ -113,6 +135,11 @@ def tasks():
         return redirect(url_for("tasks"))
 
     all_tasks = load_tasks()
+    # Attach a computed "status" to each task so the template can display
+    # the right label/color without doing date math itself.
+    for task in all_tasks:
+        task["status"] = get_task_status(task["deadline"], task["done"])
+
     return render_template("tasks.html", tasks=all_tasks)
 
 @app.route("/tasks/toggle/<int:task_index>", methods=["POST"])

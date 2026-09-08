@@ -11,7 +11,18 @@
                 <li class="task-item {% if task.done %}done{% endif %}">
                     <div>
                         <span class="task-title"><strong>{{ task.title }}</strong></span>
-                        <div class="task-meta">{{ task.assignee }} · {{ task.deadline }}</div>
+                        <div class="task-meta">
+                            {{ task.assignee }} · {{ task.deadline }}
+                            {% if not task.done %}
+                                {% if task.status == "overdue" %}
+                                    <span class="status-badge status-overdue">Overdue</span>
+                                {% elif task.status == "due_today" %}
+                                    <span class="status-badge status-due-today">Due Today</span>
+                                {% else %}
+                                    <span class="status-badge status-pending">Pending</span>
+                                {% endif %}
+                            {% endif %}
+                        </div>
                     </div>
 
                     <div class="task-actions">
