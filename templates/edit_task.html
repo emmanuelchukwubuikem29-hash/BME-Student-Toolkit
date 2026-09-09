@@ -19,10 +19,27 @@
         <div>
             <label for="deadline">Deadline:</label>
             <input type="date" name="deadline" id="deadline" value="{{ task.deadline }}" required>
+            <small id="deadline-warning" style="color:#dc2626; display:none;">Deadline cannot be in the past.</small>
         </div>
 
         <button type="submit">Save Changes</button>
     </form>
 
     <p><a href="{{ url_for('tasks') }}">Cancel</a></p>
+
+<script>
+    const deadlineInput = document.getElementById("deadline");
+    const today = new Date().toISOString().split("T")[0];
+    deadlineInput.setAttribute("min", today);
+
+    const warning = document.getElementById("deadline-warning");
+    deadlineInput.addEventListener("change", function () {
+        if (deadlineInput.value < today) {
+            warning.style.display = "block";
+            deadlineInput.value = "";
+        } else {
+            warning.style.display = "none";
+        }
+    });
+</script>
 {% endblock %}

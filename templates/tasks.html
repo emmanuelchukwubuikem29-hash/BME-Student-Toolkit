@@ -60,8 +60,28 @@
         <div>
             <label for="deadline">Deadline:</label>
             <input type="date" name="deadline" id="deadline" required>
+            <small id="deadline-warning" style="color:#dc2626; display:none;">Deadline cannot be in the past.</small>
         </div>
 
         <button type="submit">Add Task</button>
     </form>
+    
+<script>
+    // Restrict the date picker so past dates aren't selectable at all.
+    const deadlineInput = document.getElementById("deadline");
+    const today = new Date().toISOString().split("T")[0];
+    deadlineInput.setAttribute("min", today);
+
+    // Backup check: if someone manually types a date instead of using
+    // the picker, warn them live as soon as they change the field.
+    const warning = document.getElementById("deadline-warning");
+    deadlineInput.addEventListener("change", function () {
+        if (deadlineInput.value < today) {
+            warning.style.display = "block";
+            deadlineInput.value = "";
+        } else {
+            warning.style.display = "none";
+        }
+    });
+</script>
 {% endblock %}
