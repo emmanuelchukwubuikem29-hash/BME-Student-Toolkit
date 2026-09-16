@@ -166,9 +166,16 @@ def edit_task(task_index):
         return redirect(url_for("tasks"))
 
     if request.method == "POST":
+        deadline_str = request.form.get("deadline")
+        deadline = datetime.strptime(deadline_str, "%Y-%m-%d").date()
+
+        if deadline < date.today():
+            flash("Deadline cannot be in the past.")
+            return redirect(url_for("edit_task", task_index=task_index))
+
         all_tasks[task_index]["title"] = request.form.get("title")
         all_tasks[task_index]["assignee"] = request.form.get("assignee")
-        all_tasks[task_index]["deadline"] = request.form.get("deadline")
+        all_tasks[task_index]["deadline"] = deadline_str
         save_tasks(all_tasks)
         return redirect(url_for("tasks"))
 
