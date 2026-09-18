@@ -302,5 +302,18 @@ button:active {
 
 .status-overdue {
     background: #fecaca;
-    color: #991b1b;
+    color: #991B1B;
+}
+.feature-icon {
+    width: 22px;
+    height: 22px;
+    color: var(--primary);
+    vertical-align: middle;
+    margin-right: 0.5rem;
+    flex-shrink: 0;
+}
+
+.feature-links a {
+    display: flex;
+    align-items: center;
 }
