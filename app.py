@@ -61,7 +61,17 @@ def fahrenheit_to_celsius(f):
     
 @app.route("/")
 def home():
-    return render_template("home.html")
+    all_tasks = load_tasks()
+    for task in all_tasks:
+        task["status"] = get_task_status(task["deadline"], task["done"])
+
+    # Only show tasks that aren't done yet, soonest deadline first,
+    # and cap it at 5 so the home page stays quick to scan.
+    pending_tasks = [t for t in all_tasks if not t["done"]]
+    pending_tasks.sort(key=lambda t: t["deadline"])
+    preview_tasks = pending_tasks[:5]
+
+    return render_template("home.html", preview_tasks=preview_tasks)
 
 @app.route("/convert", methods=["GET", "POST"])
 def convert():
