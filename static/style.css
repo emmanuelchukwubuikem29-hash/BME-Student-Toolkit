@@ -317,3 +317,14 @@ button:active {
     display: flex;
     align-items: center;
 }
+
+.view-all-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.arrow-icon {
+    width: 16px;
+    height: 16px;
+}
